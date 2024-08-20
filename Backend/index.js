@@ -58,6 +58,8 @@ app.get('/customer',async (req, res)=>{
         res.status(500).send({ message: error.message });
     }
 })
+
+app.get('/customer:id')
 app.listen(PORT,()=>{
     console.log(`App start port: ${PORT}`);
 });

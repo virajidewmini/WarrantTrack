@@ -30,7 +30,7 @@ const statusColorMap = {
 
 
 
-export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS}) {
+export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
 
     const [filterValue, setFilterValue] = React.useState("");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -197,7 +197,7 @@ export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS}) {
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button color="primary" endContent={<PlusIcon />}>
+                        <Button color="primary" onPress={popupView} endContent={<PlusIcon />}>
                             Add New
                         </Button>
                     </div>

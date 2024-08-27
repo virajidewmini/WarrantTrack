@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import About from './pages/About.jsx';
 import Home from './pages/Home.jsx';
+import RegisteredItem from "./pages/cashier/registeredItem.jsx";
 
 const App = () => {
     return (
@@ -21,6 +22,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/cashier/registeredItems" element={<RegisteredItem />} />
                 </Routes>
             </div>
         </Router>

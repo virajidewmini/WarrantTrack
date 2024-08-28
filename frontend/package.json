@@ -10,12 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nextui-org/input": "^2.2.4",
-    "@nextui-org/react": "^2.2.10",
-    "@nextui-org/system": "^2.2.5",
-    "@nextui-org/table": "^2.0.39",
-    "@nextui-org/theme": "^2.2.9",
-    "framer-motion": "^11.3.29",
+    "@nextui-org/date-picker": "^2.1.6",
+    "@nextui-org/react": "^2.4.6",
+    "framer-motion": "^11.3.30",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1"

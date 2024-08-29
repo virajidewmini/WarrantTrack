@@ -1,17 +1,23 @@
-import React from 'react';
+"use client"
+import React, {useEffect, useState} from 'react';
 import HeaderBox from "../../components/HeaderBox.jsx";
 import CustomTable from "../../components/Table/table.jsx";
 import {DatePicker} from "@nextui-org/date-picker";
+import {parseDate} from "@internationalized/date";
 import {
-    Button,
+    Autocomplete, AutocompleteItem,
+    Button, Checkbox, CheckboxGroup,
     Input,
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
-    ModalHeader,
+    ModalHeader, Radio, RadioGroup,
     useDisclosure,
 } from "@nextui-org/react";
+import ImageUpload from "../../utils/imageUpload.jsx";
+import dayjs from 'dayjs';
+import ProductRegisterFrom from "../../components/productRegisterFrom.jsx";
 
 
 const products = [
@@ -89,6 +95,7 @@ const products = [
     },
 ]
 
+
 const visibleColumns = ["id","name", "purchaseDate","productName", "status"]
 
 const  RegisteredItem = () => {
@@ -100,20 +107,13 @@ const  RegisteredItem = () => {
     }
 
     const popup =[
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"xl"}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"2xl"} >
         <ModalContent>
             {(onClose) => (
-                <>
+                <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
                     <ModalHeader className="flex flex-col gap-1">Register a Product</ModalHeader>
                     <ModalBody>
-                        <Input type="text" label="Customer Name" placeholder="Enter customer name" />
-                        <div className="flex flex-row gap-4">
-                            <Input type="text" label="Phone Number" placeholder="Enter phpne number" />
-                            <DatePicker label="Purches Date"  />
-                        </div>
-                        <Input type="text" label="Product Name" placeholder="Enter product name" />
-                        <Input type="text" label="Serial Numnber" placeholder="Enter serial numnber" />
-
+                        <ProductRegisterFrom/>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="danger" variant="light" onPress={onClose}>
@@ -123,7 +123,7 @@ const  RegisteredItem = () => {
                             Add
                         </Button>
                     </ModalFooter>
-                </>
+                </div>
             )}
         </ModalContent>
     </Modal>

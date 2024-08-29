@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Customer from "./customerModel.js"
 import Retailer from "./retailerModel.js"
 
 const itemSchema= new mongoose.Schema(
@@ -21,9 +20,12 @@ const itemSchema= new mongoose.Schema(
             contentType:String,
             required:true
         },
-        customer:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref:Customer,
+        customerName:{
+            type:Date,
+            required:true
+        },
+        customerContact:{
+            type:Date,
             required:true
         },
         retailer:{

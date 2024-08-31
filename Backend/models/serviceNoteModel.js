@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Retailer from "./retailerModel.js";
+import Product from "./itemModel.js";
 
 const serviceNoteSchema= new mongoose.Schema(
     {
@@ -7,13 +9,9 @@ const serviceNoteSchema= new mongoose.Schema(
             required: true,
             unique: true,
         },
-
-        customerName:{
-            type: String,
-            required:true
-        },
-        customerPhone:{
-            type: String,
+        productId:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:Product,
             required:true
         },
         visualInspection:{
@@ -46,10 +44,6 @@ const serviceNoteSchema= new mongoose.Schema(
             required:true
         },
         sender:{
-            type: String,
-            required:true
-        },
-        status:{
             type: String,
             required:true
         },

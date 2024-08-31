@@ -2,12 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import HeaderBox from "../../components/HeaderBox.jsx";
 import CustomTable from "../../components/Table/table.jsx";
-import {DatePicker} from "@nextui-org/date-picker";
-import {parseDate} from "@internationalized/date";
 import {
-    Autocomplete, AutocompleteItem,
     Button, Checkbox, CheckboxGroup,
-    Input,
     Modal,
     ModalBody,
     ModalContent,
@@ -15,119 +11,155 @@ import {
     ModalHeader, Radio, RadioGroup,
     useDisclosure,
 } from "@nextui-org/react";
-import ImageUpload from "../../utils/imageUpload.jsx";
-import dayjs from 'dayjs';
+
 import ProductRegisterFrom from "../../components/productRegisterFrom.jsx";
+import ProductView from "../../components/Table/ProductView.jsx";
 
 
 const products = [
     {
         id: "1",
-        name: "Tony Reichert",
+        name: "Tony ",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Ready for Pickup",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: "2",
-        name: "Tony Reichert",
+        name: "Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Sent for Repair",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
+
     },
     {
         id: "3",
-        name: "Tony Reichert",
+        name: "Tony kumara",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Received from Repair Center",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: "4",
-        name: "Tony Reichert",
+        name: "saman Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Received for Warranty",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: "5",
         name: "Tony Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Ready for Pickup",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: "6",
         name: "Tony Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Received for Warranty",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: "7",
         name: "Tony Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Ready for Pickup",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        retailerName:"Apple",
+        warrantyPeriod:"10 days",
+        endDate: "2021-01-01",
     },
     {
         id: 8,
         name: "Tony Reichert",
         contactNumber: "+94 725896452",
-        productName: "macbook M2",
+        productName: "Macbook M2",
         serialNumber: "52552589344",
         purchaseDate: "2021-01-01",
-        status: "Ready for Pickup",
+        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
     },
 ]
 
 
-const visibleColumns = ["id","name", "purchaseDate","productName", "status"]
+const visibleColumns = ["id","name", "purchaseDate","productName"]
 
 const  RegisteredItem = () => {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [isRowClicked, setIsRowClicked] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState(null);
 
-    const popupView = () => {
+    const popupView = (rowData=null) => {
+        if(rowData){
+            setIsRowClicked(true);
+            setSelectedRowData(rowData)
+        }else {
+            setIsRowClicked(false);
+        }
         onOpen()
     }
 
     const popup =[
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"2xl"} >
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={isRowClicked ? "md":"2xl"} >
         <ModalContent>
             {(onClose) => (
                 <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                    <ModalHeader className="flex flex-col gap-1">Register a Product</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">
+                        {isRowClicked ? "":"Register a Product"}
+                    </ModalHeader>
                     <ModalBody>
-                        <ProductRegisterFrom/>
+                        {isRowClicked ? (<ProductView data={selectedRowData}/>):(<ProductRegisterFrom/>)}
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="danger" variant="light" onPress={onClose}>
-                            Close
-                        </Button>
-                        <Button color="primary" onPress={onClose}>
-                            Add
-                        </Button>
-                    </ModalFooter>
+                    {!isRowClicked && (
+                        <ModalFooter>
+                            <Button color="danger" variant="light" onPress={onClose}>
+                                Close
+                            </Button>
+                            <Button color="primary" onPress={onClose}>
+                                Add
+                            </Button>
+                        </ModalFooter>
+                    )}
+
                 </div>
             )}
         </ModalContent>
     </Modal>
     ]
+
 
     return(
         <div>

@@ -197,7 +197,7 @@ export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button color="primary" onPress={popupView} endContent={<PlusIcon />}>
+                        <Button color="primary" onPress={()=>popupView()} endContent={<PlusIcon />}>
                             Add New
                         </Button>
                     </div>
@@ -231,11 +231,6 @@ export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
     const bottomContent = React.useMemo(() => {
         return (
             <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-              ? "All items selected"
-              : `${selectedKeys.size} of ${filteredItems.length} selected`}
-        </span>
                 <Pagination
                     isCompact
                     showControls
@@ -282,9 +277,9 @@ export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody emptyContent={"No users found"} items={sortedItems}>
+            <TableBody emptyContent={"No users found"} items={sortedItems} >
                 {(item) => (
-                    <TableRow key={item.id} className={"hover:cursor-pointer hover:bg-gray-100"}>
+                    <TableRow key={item.id} onClick={()=>popupView(item)} className={"hover:cursor-pointer hover:bg-gray-100"}>
                         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
                     </TableRow>
                 )}

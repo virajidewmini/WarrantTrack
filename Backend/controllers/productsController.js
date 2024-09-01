@@ -1,6 +1,15 @@
 import Product from '../models/productsModel.js';
 import { addDays, addMonths, addYears, parseISO } from 'date-fns';
 
+export const getProducts = async (req, res) => {
+    try{
+        const data = await Product.find()
+        return res.status(200).json(data)
+    }catch(err){
+        return res.status(500).send({error: err});
+    }
+}
+
 export const addProduct = async (req, res) => {
     try{
         const { serialNumber, warrantyPeriod, purchaseDate } = req.body;

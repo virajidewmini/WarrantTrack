@@ -1,14 +1,14 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import HeaderBox from "../../components/HeaderBox.jsx";
 import CustomTable from "../../components/Table/table.jsx";
 import {
-    Button, Checkbox, CheckboxGroup,
+    Button,
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
-    ModalHeader, Radio, RadioGroup,
+    ModalHeader,
     useDisclosure,
 } from "@nextui-org/react";
 

@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
-import Retailer from "./retailerModel.js";
 import Product from "./itemModel.js";
+
+import {  customAlphabet  } from 'nanoid';
+
+const numericNanoid = customAlphabet('0123456789', 5);
 
 const serviceNoteSchema= new mongoose.Schema(
     {
-        serviceNoteId: {
+        _id: {
             type: Number,
-            required: true,
-            unique: true,
+            default: () => numericNanoid(), // Generate an 8-character unique ID
         },
         productId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref:Product,
-            required:true
+            type: String,
+            required: true
         },
         visualInspection:{
             type: String,

@@ -15,11 +15,11 @@ const itemSchema= new mongoose.Schema(
             type:Date,
             required:true
         },
-        invoice:{
-            data:Buffer,
-            contentType:String,
-            required:true
-        },
+        // invoice:{
+        //     data:Buffer,
+        //     contentType:String,
+        //     required:true
+        // },
         customerName:{
             type:Date,
             required:true

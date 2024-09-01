@@ -1,5 +1,7 @@
 import Product from '../models/productsModel.js';
 import { addDays, addMonths, addYears, parseISO } from 'date-fns';
+import Customer from "../models/customerModel.js";
+
 
 export const addProduct = async (req, res) => {
     try{
@@ -10,7 +12,7 @@ export const addProduct = async (req, res) => {
             !req.body.phoneNumber ||
             !req.body.retailerName ||
             !req.body.productName ||
-            !req.body.perchesDate ||
+            !req.body.purchaseDate ||
             !req.body.serialNumber ||
             !req.body.warrantyPeriod ||
             !req.body.imageUrl
@@ -26,7 +28,7 @@ export const addProduct = async (req, res) => {
             return res.status(400).send({error: "Serial already exists"});
         }
 
-        let endDate = req.body.perchesDate;
+        let endDate = req.body.purchaseDate;
         const [amount, unit] = req.body.warrantyPeriod.split(' ')
         const numberAmount = parseInt(amount)
 
@@ -53,7 +55,7 @@ export const addProduct = async (req, res) => {
             phoneNumber: req.body.phoneNumber,
             retailerName: req.body.retailerName,
             productName: req.body.productName,
-            perchesDate: req.body.perchesDate,
+            purchaseDate: req.body.purchaseDate,
             serialNumber: req.body.serialNumber,
             warrantyPeriod: req.body.warrantyPeriod,
             imageUrl: req.body.imageUrl,
@@ -69,6 +71,33 @@ export const addProduct = async (req, res) => {
         }
 
     }catch(error){
+        res.status(500).send({ message: error.message });
+    }
+}
+
+export const getProducts = async (req, res)=>{
+    try {
+        const productIds = await Product.find();
+
+        return res.status(200).json({
+            count: productIds.length,
+            data: productIds,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
+    }
+}
+
+export const getProduct= async (req, res)=>{
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findById(id);
+
+        return res.status(200).json(product);
+    } catch (error) {
+        console.log(error.message);
         res.status(500).send({ message: error.message });
     }
 }

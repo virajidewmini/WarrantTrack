@@ -1,6 +1,6 @@
 import React from 'react';
 import TestCard from "../components/testCard.jsx";
-import Form from "../components/form.jsx"
+
 
 const About = () => {
     return (
@@ -11,7 +11,7 @@ const About = () => {
             </p>
             <TestCard/>
             <div className={"m-3"}>
-                <Form/>
+
             </div>
 
         </div>

@@ -1,10 +1,13 @@
 import React from "react";
 const columns = [
     {name: "PRODUCT ID", uid: "id", sortable: true},
+    {name: "SERVICE NOTE ID", uid: "serviceNoteId", sortable: true},
     {name: "CUSTOMER NAME", uid: "name", sortable: true},
     {name: "PRODUCT NAME", uid: "productName", sortable: true},
     {name: "PURCHASE DATE", uid: "purchaseDate", sortable: true},
+    {name: "SERVICE TYPE", uid: "serviceType", sortable: true},
     {name: "STATUS", uid: "status", sortable: true},
+    {name: "ACTIONS", uid: "actions"},
 ];
 
 const statusOptions = [

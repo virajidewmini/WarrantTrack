@@ -1,6 +1,13 @@
 import mongoose from 'mongoose'
+import {  customAlphabet  } from 'nanoid';
+
+const numericNanoid = customAlphabet('0123456789', 5);
 
 const productSchema = new mongoose.Schema({
+    _id: {
+        type: Number,
+        default: () => numericNanoid(), // Generate an 8-character unique ID
+    },
     customerName:{
         type: String,
         required: true,
@@ -9,7 +16,7 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    perchesDate:{
+    purchaseDate:{
         type:String,
         required:true
     },

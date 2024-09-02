@@ -1,11 +1,16 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
+
 import {PORT, mongoDBURL} from "./config.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import serviceNoteRoutes from "./routes/serviceNoteRoute.js";
+import productRoutes from "./routes/productRoutes.js";
 
 const app=express();
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -15,6 +20,7 @@ app.get('/',(req, res)=>{
 })
 
 app.use('/customer', customerRoutes);
+app.use('/products', productRoutes);
 app.use('/user', userRoutes);
 app.use('/serviceNote', serviceNoteRoutes);
 app.listen(PORT,()=>{

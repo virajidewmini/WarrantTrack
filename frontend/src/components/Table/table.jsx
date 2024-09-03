@@ -33,7 +33,7 @@ const statusColorMap = {
 
 
 
-export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
+export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView,isLoading}) {
 
     const [filterValue, setFilterValue] = React.useState("");
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -283,6 +283,7 @@ export default function CustomTable({users,INITIAL_VISIBLE_COLUMNS,popupView}) {
 
     return (
         <Table
+            isLoading={isLoading}
             aria-label="Example table with custom cells, pagination and sorting"
             isHeaderSticky
             bottomContent={bottomContent}

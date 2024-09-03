@@ -1,11 +1,8 @@
 import Product from '../models/productsModel.js';
 import { addDays, addMonths, addYears, parseISO } from 'date-fns';
-import Customer from "../models/customerModel.js";
-
 
 export const addProduct = async (req, res) => {
     try{
-        const { serialNumber, warrantyPeriod, purchaseDate } = req.body;
 
         if (
             !req.body.customerName ||
@@ -65,6 +62,7 @@ export const addProduct = async (req, res) => {
         const product = await Product.create(newProduct);
 
         if(product){
+            console.log(product);
             return res.status(201).send(product);
         }else {
             return res.status(400).send({error: "Product not created."});

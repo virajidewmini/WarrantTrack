@@ -1,7 +1,8 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderBox from "../../components/HeaderBox.jsx";
 import CustomTable from "../../components/Table/table.jsx";
+import { showToast } from '../../utils/toast';
 import {
     Button,
     Modal,
@@ -15,105 +16,6 @@ import {
 import ProductRegisterFrom from "../../components/productRegisterFrom.jsx";
 import ProductView from "../../components/Table/ProductView.jsx";
 
-
-const products = [
-    {
-        id: "1",
-        name: "Tony ",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: "2",
-        name: "Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-
-    },
-    {
-        id: "3",
-        name: "Tony kumara",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: "4",
-        name: "saman Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: "5",
-        name: "Tony Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: "6",
-        name: "Tony Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: "7",
-        name: "Tony Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        retailerName:"Apple",
-        warrantyPeriod:"10 days",
-        endDate: "2021-01-01",
-    },
-    {
-        id: 8,
-        name: "Tony Reichert",
-        contactNumber: "+94 725896452",
-        productName: "Macbook M2",
-        serialNumber: "52552589344",
-        purchaseDate: "2021-01-01",
-        imageUrl: "https://th.bing.com/th/id/OIP.J_C_ltP-XLSCClCRTcEdoAAAAA?w=251&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-    },
-]
-
-
 const visibleColumns = ["id","name", "purchaseDate","productName"]
 
 const  RegisteredItem = () => {
@@ -121,6 +23,68 @@ const  RegisteredItem = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [isRowClicked, setIsRowClicked] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState(null);
+    const [products,setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:5555/products/');
+            const result = await response.json();
+            console.log(result.data);
+
+            if (result.data) {
+                const productList = result.data
+                productList.forEach(item => {
+                    item.id = item._id.toString();
+                    item.name = item.customerName;
+                    item.contactNumber = item.phoneNumber.toString();
+                })
+                setProducts(productList);
+
+            } else {
+                console.error("Unexpected response format:", result);
+            }
+
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchData();
+        if(products.length > -1){
+            setLoading(false);
+        }
+    }, []);
+    
+    const registerItem = async (data,onClose) =>{
+        console.log(data)
+        try{
+            const response = await fetch(`http://localhost:5555/products/create`,{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+            console.log(response)
+            const result = await response.json();
+            console.log(result)
+            if(response.status === 201){
+                console.log("Successfully registered");
+                showToast('success', 'Product Added');
+            }else{
+                console.error("Error registered");
+                showToast('error','Product Adding failed');
+            }
+
+        }catch(error){
+            console.error("Error creating products:", error);
+        }
+        onClose()
+    }
 
     const popupView = (rowData=null) => {
         if(rowData){
@@ -133,44 +97,36 @@ const  RegisteredItem = () => {
     }
 
     const popup =[
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={isRowClicked ? "md":"2xl"} >
-        <ModalContent>
-            {(onClose) => (
-                <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                    <ModalHeader className="flex flex-col gap-1">
-                        {isRowClicked ? "":"Register a Product"}
-                    </ModalHeader>
-                    <ModalBody>
-                        {isRowClicked ? (<ProductView data={selectedRowData}/>):(<ProductRegisterFrom/>)}
-                    </ModalBody>
-                    {!isRowClicked && (
-                        <ModalFooter>
-                            <Button color="danger" variant="light" onPress={onClose}>
-                                Close
-                            </Button>
-                            <Button color="primary" onPress={onClose}>
-                                Add
-                            </Button>
-                        </ModalFooter>
-                    )}
 
-                </div>
-            )}
-        </ModalContent>
-    </Modal>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={setIsRowClicked?"md":"2xl"} >
+            <ModalContent>
+                {(onClose) => (
+                    <div style={{ maxHeight: '680px', overflowY: 'auto' }}>
+                        {isRowClicked ? (<ProductView data={selectedRowData}/>):(<ProductRegisterFrom registerItem = {registerItem} onClose={onClose}/>)}
+                    </div>
+                )}
+            </ModalContent>
+        </Modal>
     ]
 
 
     return(
         <div>
             {popup}
+
             <div>
                 <HeaderBox title={"Registered Items"}></HeaderBox>
             </div>
             <div className={"mt-8"}>
-                <CustomTable users = {products} INITIAL_VISIBLE_COLUMNS={visibleColumns} popupView={popupView}></CustomTable>
-            </div>
 
+                    <CustomTable
+                        isLoading={loading}
+                    users={products}
+                INITIAL_VISIBLE_COLUMNS={visibleColumns}
+                popupView={popupView}
+            />
+
+            </div>
 
         </div>
     )
